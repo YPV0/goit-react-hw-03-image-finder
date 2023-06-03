@@ -1,4 +1,9 @@
 import { Component } from 'react';
+import {
+  StyledSearchForm,
+  StyledSearchInput,
+  StyledSearchbar,
+} from './Searchbar.styled';
 
 export class SearchBar extends Component {
   state = {
@@ -17,14 +22,16 @@ export class SearchBar extends Component {
   };
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <input
-          type="text"
-          placeholder="Search"
-          value={this.state.name}
-          onChange={this.handleChange}
-        />
-      </form>
+      <StyledSearchbar>
+        <StyledSearchForm onSubmit={this.handleSubmit}>
+          <StyledSearchInput
+            type="text"
+            placeholder="Search"
+            value={this.state.name}
+            onChange={this.handleChange}
+          />
+        </StyledSearchForm>
+      </StyledSearchbar>
     );
   }
 }

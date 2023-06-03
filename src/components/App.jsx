@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { SearchBar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
-import { Loader } from './Loader/Loader';
+import { Button } from './Button/Button';
 
 export class App extends Component {
   state = {
@@ -24,7 +24,7 @@ export class App extends Component {
       <div>
         <SearchBar onSubmit={this.onSearchSubmit} />
         <ImageGallery q={this.state.q} page={this.state.page}></ImageGallery>
-        <Loader onClick={this.onButtonClick}></Loader>
+        <Button onClick={this.onButtonClick}></Button>
       </div>
     );
   }

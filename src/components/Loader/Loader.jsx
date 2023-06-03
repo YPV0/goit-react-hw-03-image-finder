@@ -1,7 +1,11 @@
-import { Component } from 'react';
+import React from 'react';
+import { StyledLoader } from './Loader.styled';
 
-export class Loader extends Component {
-  render() {
-    return <button onClick={this.props.onClick}>Load more</button>;
-  }
-}
+const Loading = ({
+  type = 'spin',
+  color = 'cyan',
+  height = '50px',
+  width = '50px',
+}) => <StyledLoader type={type} color={color} height={height} width={width} />;
+
+export default Loading;
