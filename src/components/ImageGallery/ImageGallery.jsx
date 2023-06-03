@@ -1,7 +1,6 @@
 import { Component } from 'react';
 import { getImgData } from 'API/API';
 import { Modal } from 'components/Form/Form';
-import Loading from 'components/Loader/Loader';
 import { nanoid } from 'nanoid';
 
 import {
@@ -13,7 +12,6 @@ import {
 export class ImageGallery extends Component {
   state = {
     imgData: [],
-    isLoading: false,
     showModal: false,
     largeImageURL: null,
   };
@@ -62,31 +60,28 @@ export class ImageGallery extends Component {
   };
 
   render() {
-    const { imgData, isLoading, showModal, largeImageURL } = this.state;
+    const { imgData, showModal, largeImageURL } = this.state;
 
     return (
       <div>
-        {isLoading ? (
-          <Loading />
-        ) : (
-          <StyledImageGallery className="ImageGallery">
-            {imgData.map(({ id, webformatURL, largeImageURL }) => (
-              <StyledImageGalleryItem
-                key={nanoid()}
-                className="ImageGallery-item"
-              >
-                <StyledImageGalleryItemImage
-                  className="ImageGallery-image"
-                  src={webformatURL}
-                  alt={id}
-                  data-source={largeImageURL}
-                  onClick={() => this.openModal(largeImageURL)}
-                />
-              </StyledImageGalleryItem>
-            ))}
-          </StyledImageGallery>
+        (
+        <StyledImageGallery className="ImageGallery">
+          {imgData.map(({ id, webformatURL, largeImageURL }) => (
+            <StyledImageGalleryItem
+              key={nanoid()}
+              className="ImageGallery-item"
+            >
+              <StyledImageGalleryItemImage
+                className="ImageGallery-image"
+                src={webformatURL}
+                alt={id}
+                data-source={largeImageURL}
+                onClick={() => this.openModal(largeImageURL)}
+              />
+            </StyledImageGalleryItem>
+          ))}
+        </StyledImageGallery>
         )}
-
         {showModal && (
           <Modal largeImageURL={largeImageURL} onClose={this.closeModal} />
         )}
