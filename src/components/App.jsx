@@ -10,7 +10,7 @@ export class App extends Component {
   };
 
   onSearchSubmit = name => {
-    this.setState({ q: name });
+    this.setState({ q: name, page: 1 });
   };
 
   onButtonClick = () => {

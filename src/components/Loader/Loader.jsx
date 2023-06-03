@@ -1,6 +1,7 @@
 import { Component } from 'react';
+
 export class Loader extends Component {
   render() {
-    return <button>'Load more'</button>;
+    return <button onClick={this.props.onClick}>Load more</button>;
   }
 }

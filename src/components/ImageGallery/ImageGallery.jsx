@@ -9,21 +9,22 @@ export class ImageGallery extends Component {
   componentDidMount() {
     const { q, page } = this.props;
     getImgData(q, page).then(data => {
-      this.setState({
-        imgData: data.data.hits || [],
-      });
+      this.setState({ imgData: data.data.hits || [] });
     });
   }
 
   componentDidUpdate(prevProps) {
     const { q, page } = this.props;
 
-    if (q !== prevProps.q || page !== prevProps.page) {
+    if (q !== prevProps.q) {
       getImgData(q, page).then(data => {
-        this.setState({
-          imgData: data.data.hits || [],
-        });
-        console.log(this.state.imgData);
+        this.setState({ imgData: data.data.hits || [] });
+      });
+    } else if (page !== prevProps.page) {
+      getImgData(q, page).then(data => {
+        this.setState(prevState => ({
+          imgData: prevState.imgData.concat(data.data.hits || []),
+        }));
       });
     }
   }
@@ -32,8 +33,8 @@ export class ImageGallery extends Component {
     const { imgData } = this.state;
     return (
       <ul className="ImageGallery">
-        {imgData.map(({ id, webformatURL, largeImageURL }) => (
-          <li key={id} className="ImageGallery-item">
+        {imgData.map(({ id, webformatURL, largeImageURL }, index) => (
+          <li key={id + '-' + index} className="ImageGallery-item">
             <img
               className="ImageGallery-image"
               src={webformatURL}
