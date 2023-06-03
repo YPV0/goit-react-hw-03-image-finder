@@ -29,14 +29,19 @@ export class GalleryItem extends Component {
 
     if (q !== prevProps.q) {
       this.setState({ isLoading: true });
+      this.props.onLoadingChange(true);
 
       getImgData(q, page)
         .then(data => {
           this.setState({ imgData: data.data.hits || [] });
         })
-        .finally(() => this.setState({ isLoading: false }));
+        .finally(() => {
+          this.setState({ isLoading: false });
+          this.props.onLoadingChange(false);
+        });
     } else if (page !== prevProps.page) {
       this.setState({ isLoading: true });
+      this.props.onLoadingChange(true);
 
       getImgData(q, page)
         .then(data => {
@@ -44,7 +49,10 @@ export class GalleryItem extends Component {
             imgData: prevState.imgData.concat(data.data.hits || []),
           }));
         })
-        .finally(() => this.setState({ isLoading: false }));
+        .finally(() => {
+          this.setState({ isLoading: false });
+          this.props.onLoadingChange(false);
+        });
     }
   }
 
