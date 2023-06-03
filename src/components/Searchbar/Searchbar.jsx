@@ -1,8 +1,10 @@
 import { Component } from 'react';
 import {
+  MagnifyingGlassIcon,
   StyledSearchForm,
   StyledSearchInput,
   StyledSearchbar,
+  StyledSubmitButton,
 } from './Searchbar.styled';
 
 export class SearchBar extends Component {
@@ -20,18 +22,24 @@ export class SearchBar extends Component {
     e.preventDefault();
     this.props.onSubmit(this.state.name);
   };
+
   render() {
     return (
-      <StyledSearchbar>
-        <StyledSearchForm onSubmit={this.handleSubmit}>
-          <StyledSearchInput
-            type="text"
-            placeholder="Search"
-            value={this.state.name}
-            onChange={this.handleChange}
-          />
-        </StyledSearchForm>
-      </StyledSearchbar>
+      <header>
+        <StyledSearchbar>
+          <StyledSearchForm onSubmit={this.handleSubmit}>
+            <StyledSubmitButton type="submit" className="button">
+              <MagnifyingGlassIcon></MagnifyingGlassIcon>
+            </StyledSubmitButton>
+            <StyledSearchInput
+              type="text"
+              placeholder="Search"
+              value={this.state.name}
+              onChange={this.handleChange}
+            />
+          </StyledSearchForm>
+        </StyledSearchbar>
+      </header>
     );
   }
 }
