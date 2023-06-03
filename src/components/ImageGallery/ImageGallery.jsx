@@ -1,55 +1,13 @@
 import { Component } from 'react';
-import { getImgData } from 'API/API';
 import { Modal } from 'components/Form/Form';
-import { nanoid } from 'nanoid';
 
-import {
-  StyledImageGallery,
-  StyledImageGalleryItem,
-  StyledImageGalleryItemImage,
-} from './ImageGallery.styled';
+import { StyledImageGallery } from './ImageGallery.styled';
 
 export class ImageGallery extends Component {
   state = {
-    imgData: [],
     showModal: false,
     largeImageURL: null,
   };
-
-  componentDidMount() {
-    const { q, page } = this.props;
-    this.setState({ isLoading: true });
-
-    getImgData(q, page)
-      .then(data => {
-        this.setState({ imgData: data.data.hits || [] });
-      })
-      .finally(() => this.setState({ isLoading: false }));
-  }
-
-  componentDidUpdate(prevProps) {
-    const { q, page } = this.props;
-
-    if (q !== prevProps.q) {
-      this.setState({ isLoading: true });
-
-      getImgData(q, page)
-        .then(data => {
-          this.setState({ imgData: data.data.hits || [] });
-        })
-        .finally(() => this.setState({ isLoading: false }));
-    } else if (page !== prevProps.page) {
-      this.setState({ isLoading: true });
-
-      getImgData(q, page)
-        .then(data => {
-          this.setState(prevState => ({
-            imgData: prevState.imgData.concat(data.data.hits || []),
-          }));
-        })
-        .finally(() => this.setState({ isLoading: false }));
-    }
-  }
 
   openModal = largeImageURL => {
     this.setState({ showModal: true, largeImageURL: largeImageURL });
@@ -60,28 +18,13 @@ export class ImageGallery extends Component {
   };
 
   render() {
-    const { imgData, showModal, largeImageURL } = this.state;
+    const { showModal, largeImageURL, children } = this.props;
 
     return (
       <div>
-        (
         <StyledImageGallery className="ImageGallery">
-          {imgData.map(({ id, webformatURL, largeImageURL }) => (
-            <StyledImageGalleryItem
-              key={nanoid()}
-              className="ImageGallery-item"
-            >
-              <StyledImageGalleryItemImage
-                className="ImageGallery-image"
-                src={webformatURL}
-                alt={id}
-                data-source={largeImageURL}
-                onClick={() => this.openModal(largeImageURL)}
-              />
-            </StyledImageGalleryItem>
-          ))}
+          {children}
         </StyledImageGallery>
-        )}
         {showModal && (
           <Modal largeImageURL={largeImageURL} onClose={this.closeModal} />
         )}
