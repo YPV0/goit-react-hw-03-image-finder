@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { Modal } from 'components/Form/Form';
+import PropTypes from 'prop-types';
 
 import { StyledImageGallery } from './ImageGallery.styled';
 
@@ -18,4 +19,10 @@ export class ImageGallery extends Component {
       </div>
     );
   }
+  static propTypes = {
+    showModal: PropTypes.bool.isRequired,
+    largeImageURL: PropTypes.string,
+    closeModal: PropTypes.func.isRequired,
+    children: PropTypes.node.isRequired,
+  };
 }

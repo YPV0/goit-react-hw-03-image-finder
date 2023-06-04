@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import { getImgData } from 'API/API';
 import { nanoid } from 'nanoid';
+import PropTypes from 'prop-types';
 
 import {
   StyledImageGalleryItem,
@@ -16,12 +17,13 @@ export class GalleryItem extends Component {
   componentDidMount() {
     const { q, page } = this.props;
     this.setState({ isLoading: true });
-
-    getImgData(q, page)
-      .then(data => {
-        this.setState({ imgData: data.data.hits || [] });
-      })
-      .finally(() => this.setState({ isLoading: false }));
+    if (q.length > 1) {
+      getImgData(q, page)
+        .then(data => {
+          this.setState({ imgData: data.data.hits || [] });
+        })
+        .finally(() => this.setState({ isLoading: false }));
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -76,4 +78,10 @@ export class GalleryItem extends Component {
       </>
     );
   }
+  static propTypes = {
+    q: PropTypes.string.isRequired,
+    page: PropTypes.number.isRequired,
+    openModal: PropTypes.func.isRequired,
+    onLoadingChange: PropTypes.func.isRequired,
+  };
 }

@@ -55,7 +55,7 @@ export class App extends Component {
           />
         </ImageGallery>
 
-        <Button onClick={this.onButtonClick} />
+        <Button q={q} onClick={this.onButtonClick} />
         {isLoading && (
           <StyledLoader
             color={'cyan'}
