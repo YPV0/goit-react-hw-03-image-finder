@@ -12,6 +12,8 @@ export class App extends Component {
     showModal: false,
     largeImageURL: null,
     isLoading: false,
+    totalHits: 0,
+    imagesLoadedSoFar: 0,
   };
 
   handleLoadingChange = isLoading => {
@@ -19,13 +21,23 @@ export class App extends Component {
   };
 
   onSearchSubmit = name => {
-    this.setState({ q: name, page: 1 });
+    this.setState({ q: name, page: 1, totalHits: 0, imagesLoadedSoFar: 0 });
   };
 
   onButtonClick = () => {
     this.setState(prevState => ({
       page: prevState.page + 1,
     }));
+  };
+
+  updateLoadedImages = images => {
+    this.setState(prevState => ({
+      imagesLoadedSoFar: prevState.imagesLoadedSoFar + images,
+    }));
+  };
+
+  updateTotalHits = totalHits => {
+    this.setState({ totalHits });
   };
 
   openModal = largeImageURL => {
@@ -37,7 +49,15 @@ export class App extends Component {
   };
 
   render() {
-    const { q, page, showModal, largeImageURL, isLoading } = this.state;
+    const {
+      q,
+      page,
+      showModal,
+      largeImageURL,
+      isLoading,
+      totalHits,
+      imagesLoadedSoFar,
+    } = this.state;
 
     return (
       <div>
@@ -52,10 +72,15 @@ export class App extends Component {
             page={page}
             openModal={this.openModal}
             onLoadingChange={this.handleLoadingChange}
+            onLoadedImagesChange={this.updateLoadedImages}
+            onTotalHitsChange={this.updateTotalHits}
           />
         </ImageGallery>
 
-        <Button q={q} onClick={this.onButtonClick} />
+        <Button
+          onClick={this.onButtonClick}
+          hasMore={imagesLoadedSoFar < totalHits}
+        />
         {isLoading && (
           <StyledLoader
             color={'cyan'}

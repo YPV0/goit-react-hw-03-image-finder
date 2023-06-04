@@ -21,6 +21,8 @@ export class GalleryItem extends Component {
       getImgData(q, page)
         .then(data => {
           this.setState({ imgData: data.data.hits || [] });
+          this.props.onLoadedImagesChange(data.data.hits.length);
+          this.props.onTotalHitsChange(data.data.totalHits);
         })
         .finally(() => this.setState({ isLoading: false }));
     }
@@ -36,6 +38,8 @@ export class GalleryItem extends Component {
       getImgData(q, page)
         .then(data => {
           this.setState({ imgData: data.data.hits || [] });
+          this.props.onLoadedImagesChange(data.data.hits.length);
+          this.props.onTotalHitsChange(data.data.totalHits);
         })
         .finally(() => {
           this.setState({ isLoading: false });
@@ -50,6 +54,7 @@ export class GalleryItem extends Component {
           this.setState(prevState => ({
             imgData: prevState.imgData.concat(data.data.hits || []),
           }));
+          this.props.onLoadedImagesChange(data.data.hits.length);
         })
         .finally(() => {
           this.setState({ isLoading: false });
@@ -83,5 +88,7 @@ export class GalleryItem extends Component {
     page: PropTypes.number.isRequired,
     openModal: PropTypes.func.isRequired,
     onLoadingChange: PropTypes.func.isRequired,
+    onLoadedImagesChange: PropTypes.func.isRequired,
+    onTotalHitsChange: PropTypes.func.isRequired,
   };
 }
